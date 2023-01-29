@@ -35,16 +35,18 @@ With german_orders AS(
                                       FROM Customers
                                       WHERE Country='Germany')),
 total_german_orders AS( 
-                    SELECT o.ProductID, SUM(o.Quantity) TotalOrders
+                    SELECT o.ProductID, o.Quantity Qty
                     FROM OrderDetails o
                     JOIN german_orders g ON g.OrderID=o.OrderID
                     GROUP BY g.OrderID)
-SELECT p.ProductName, t.TotalOrders
+SELECT p.ProductName, SUM(t.Qty) TotalOrders
 FROM total_german_orders t
 JOIN Products p ON t.ProductID=p.ProductID
+GROUP BY 1
 ORDER BY 2 DESC
 LIMIT 1;
 ```
 
-***'Chang'* was the most purchased product from customers residing in germany with 160 orders just merely passing *'Northwoods Cranberry Sauce'* which had 159 orders.** 
-![Screenshot_20230126_020945](https://user-images.githubusercontent.com/107050974/214777063-bc7c5a08-7019-401f-9912-f6090a4fe662.png)
+***'Steeleye Stout'* was the most purchased product from customers residing in Germany with 100 orders just merely passing *'Chang'* which had 84 orders.** 
+![Screenshot_20230129_010206](https://user-images.githubusercontent.com/107050974/215308170-858cbe13-5386-497a-a52e-ca801fdc0ac3.png)
+
