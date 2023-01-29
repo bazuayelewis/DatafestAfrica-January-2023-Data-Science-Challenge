@@ -21,12 +21,13 @@ With german_orders AS(
                                       FROM Customers
                                       WHERE Country='Germany')),
 total_german_orders AS( 
-                    SELECT o.ProductID, SUM(o.Quantity) TotalOrders
+                    SELECT o.ProductID, o.Quantity Qty
                     FROM OrderDetails o
                     JOIN german_orders g ON g.OrderID=o.OrderID
-                    GROUP BY g.OrderID)
-SELECT p.ProductName, t.TotalOrders
+                    )
+SELECT p.ProductName, t.Qty TotalOrders
 FROM total_german_orders t
 JOIN Products p ON t.ProductID=p.ProductID
+GROUP BY 1
 ORDER BY 2 DESC
 LIMIT 1;
